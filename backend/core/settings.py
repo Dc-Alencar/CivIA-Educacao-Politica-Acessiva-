@@ -31,7 +31,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'content',
     'api_civia',
+    'quizzes',
+    'ai_assistant',
     'rest_framework',
 ]
 
