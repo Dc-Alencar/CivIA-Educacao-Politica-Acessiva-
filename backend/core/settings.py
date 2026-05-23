@@ -72,9 +72,24 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
+    
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': os.path.join(BASE_DIR, os.getenv('NAME_DB')),
+    #}
+    
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, os.getenv('NAME_DB')),
+        'ENGINE': 'django.db.backends.postgresql',
+
+        'NAME': os.getenv('NAME_DB'),
+
+        'USER': os.getenv('DB_USER'),
+
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+
+        'HOST': os.getenv('DB_HOST'),
+
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
@@ -120,7 +135,8 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+        "rest_framework.permissions.IsAuthenticated"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
 

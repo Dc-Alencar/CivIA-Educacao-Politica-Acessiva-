@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from content.models import Topic
 
-class TopicSerilizer(serializers.ModelSerializer):
+class TopicSerializer(serializers.ModelSerializer):
 
     class Meta:
         
