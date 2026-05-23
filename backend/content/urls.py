@@ -20,7 +20,8 @@ router.register(
 
 router.register(
     r"progress",
-    UserProgressViewSet
+    UserProgressViewSet,
+    basename="progress"
 )
 
 urlpatterns = router.urls
