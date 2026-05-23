@@ -3,8 +3,6 @@ from django.conf import settings
 
 from .topic import Topic
 
-print(settings)
-
 class UserProgress(models.Model):
     STATUS_CHOICES = [
         ('NOT_STARTED', 'Not started'),
@@ -24,7 +22,7 @@ class UserProgress(models.Model):
         related_name="progress"
     )
 
-    status = models.ForeignKey(
+    status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
         default="NOT_STARTED"
@@ -39,3 +37,7 @@ class UserProgress(models.Model):
 
     class Meta:
         unique_together = ("user", "topic")
+        
+    def __str__(self):
+
+        return f"{self.user.username} - {self.topic.title}"
