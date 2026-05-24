@@ -13,21 +13,24 @@ class UserAnswerSerializer(serializers.ModelSerializer):
 
         fields = (
             "id",
+            "attempt",
             "question",
             "selected_alternative",
-            "is_correct"
+            "is_correct",
+            "answered_at",
         )
 
         read_only_fields = (
             "is_correct",
+            "answered_at",
         )
 
     def validate(self, attrs):
 
         question = attrs["question"]
-
+    
         alternative = attrs["selected_alternative"]
-        
+
         if alternative.question != question:
 
             raise serializers.ValidationError(

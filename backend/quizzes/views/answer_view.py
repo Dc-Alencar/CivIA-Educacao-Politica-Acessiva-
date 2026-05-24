@@ -13,7 +13,7 @@ class UserAnswerViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
 
         return UserAnswer.objects.filter(
-            user=self.request.user
+            attempt__user=self.request.user
         )
 
     def perform_create(self, serializer):
@@ -23,6 +23,5 @@ class UserAnswerViewSet(viewsets.ModelViewSet):
         ]
 
         serializer.save(
-            user=self.request.user,
             is_correct=alternative.is_correct
         )

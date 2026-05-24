@@ -6,7 +6,7 @@ from .alternative_serializer import AlternativeSerializer
 
 class QuestionSerializer(serializers.ModelSerializer):
 
-    altenatives = AlternativeSerializer(
+    alternatives = AlternativeSerializer(
         many=True,
         read_only=True
     )

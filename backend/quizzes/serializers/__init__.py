@@ -1,3 +1,4 @@
 from .question_serializer import QuestionSerializer
 from .alternative_serializer import AlternativeSerializer
 from .answer_serializer import UserAnswerSerializer
+from .attempt_serializer import QuizAttemptSerializer
