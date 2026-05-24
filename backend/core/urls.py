@@ -18,6 +18,8 @@ urlpatterns = [
 
     path("api/content/", include("content.urls")),
 
+    path("api/quizzes/", include("quizzes.urls")),
+
     path(
         "api/token/",
         TokenObtainPairView.as_view(),
