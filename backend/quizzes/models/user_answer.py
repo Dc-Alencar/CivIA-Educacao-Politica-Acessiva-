@@ -34,4 +34,4 @@ class UserAnswer(models.Model):
 
     def __str__(self):
 
-        return f"{self.attempt.user.username} - {self.attempt.question.id}"
+        return f"{self.attempt.user.username} - {self.question.id}"
