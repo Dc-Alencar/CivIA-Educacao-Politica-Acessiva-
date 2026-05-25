@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from quizzes.models import (
     UserAnswer,
-    Alternative
 )
 
 class UserAnswerSerializer(serializers.ModelSerializer):
@@ -13,7 +12,6 @@ class UserAnswerSerializer(serializers.ModelSerializer):
 
         fields = (
             "id",
-            "attempt",
             "question",
             "selected_alternative",
             "is_correct",

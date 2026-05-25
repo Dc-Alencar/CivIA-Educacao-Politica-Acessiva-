@@ -3,12 +3,11 @@ from django.db import models
 
 from .question import Question
 from .alternative import Alternative
-from .quiz_attempt import QuizAttempt
 
 class UserAnswer(models.Model):
     
-    attempt = models.ForeignKey(
-        QuizAttempt,
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="answers"
     )
@@ -31,7 +30,11 @@ class UserAnswer(models.Model):
     is_correct = models.BooleanField(
         default=False
     )
+    
+    class Meta:
+
+        unique_together = ("user", "question")
 
     def __str__(self):
 
-        return f"{self.attempt.user.username} - {self.question.id}"
+        return f"{self.user.username} - {self.question.id}"

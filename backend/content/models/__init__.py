@@ -1,3 +1,3 @@
 from .module import Module
 from .topic import Topic
-from .UserProgress import UserProgress
+from .user_progress import UserProgress

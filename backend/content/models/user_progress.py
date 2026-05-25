@@ -4,36 +4,24 @@ from django.conf import settings
 from .topic import Topic
 
 class UserProgress(models.Model):
-    STATUS_CHOICES = [
-        ('NOT_STARTED', 'Not started'),
-        ('IN_PROGRESS', 'In progress'),
-        ('DONE', 'Done')
-    ]
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="progress"
     )
 
     topic = models.ForeignKey(
         Topic,
         on_delete=models.CASCADE,
-        related_name="progress"
     )
-
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default="NOT_STARTED"
+    
+    completed = models.BooleanField(
+        default=False   
     )
 
     completed_at = models.DateTimeField(
-        null=True,
-        blank=True
+        auto_now_add=True
     )
-
-    last_acessed_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = ("user", "topic")

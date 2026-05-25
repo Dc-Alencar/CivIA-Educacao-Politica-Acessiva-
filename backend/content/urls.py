@@ -1,5 +1,9 @@
 from rest_framework.routers import DefaultRouter
 
+from content.views import CompleteTopicView
+
+from django.urls import path
+
 from content.views import (
     ModuleViewSet,
     TopicViewSet,
@@ -10,12 +14,14 @@ router = DefaultRouter()
 
 router.register(
     r"modules",
-    ModuleViewSet
+    ModuleViewSet,
+    basename="modules"
 )
 
 router.register(
     r"topics",
-    TopicViewSet
+    TopicViewSet,
+    basename="topics"
 )
 
 router.register(
@@ -24,4 +30,12 @@ router.register(
     basename="progress"
 )
 
-urlpatterns = router.urls
+urlpatterns = [
+    path(
+        "progress/complete-topic/",
+        CompleteTopicView.as_view(),
+        name="complete-topic"
+    )
+]
+
+urlpatterns += router.urls
