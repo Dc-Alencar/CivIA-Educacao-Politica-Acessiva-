@@ -25,16 +25,33 @@ class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
             "topic_order"
         )
 
+        limit = self.request.query_params.get(
+            "limit"
+        )
+        
+        # filtra por módulo
         if module_order:
 
             queryset = queryset.filter(
                 topic__module__order=module_order
             )
-
+            
+        # filtra por tópico
         if topic_order:
 
             queryset = queryset.filter(
                 topic__order=topic_order
             )
+        
+        queryset = queryset.order_by("id")
 
-        return queryset.order_by("id")
+        # Limita quantidade
+        if limit:
+
+            try:
+                queryset = queryset[:int(limit)]
+
+            except ValueError:
+                pass
+
+        return queryset
