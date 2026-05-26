@@ -1,7 +1,12 @@
 from rest_framework.routers import DefaultRouter
 
-from .views.question_view import QuestionViewSet
-from .views.answer_view import UserAnswerViewSet
+from django.urls import path
+
+from .views import (
+    QuestionViewSet,
+    UserAnswerViewSet,
+    SubmitQuizView
+)
 
 router = DefaultRouter()
 
@@ -17,4 +22,13 @@ router.register(
     basename="answers"
 )
 
-urlpatterns = router.urls
+urlpatterns = [
+
+    path(
+        "submit/",
+        SubmitQuizView.as_view(),
+        name="submit-quiz"
+    )
+]
+
+urlpatterns += router.urls
