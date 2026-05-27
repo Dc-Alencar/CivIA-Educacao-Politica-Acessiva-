@@ -10,12 +10,14 @@ from .views import (
 
 router = DefaultRouter()
 
+# url de questões
 router.register(
     r"questions",
     QuestionViewSet,
     basename="questions"
 )
 
+# url de respostas : INATIVA, não use
 router.register(
     r"answers",
     UserAnswerViewSet,
@@ -24,6 +26,7 @@ router.register(
 
 urlpatterns = [
 
+    # url de envio de respostas dos quizzes
     path(
         "submit/",
         SubmitQuizView.as_view(),

@@ -31,16 +31,18 @@ class ChatView(APIView):
                 "message"
             )
 
-            knowledge = load_all_knowledge()
+            module_id = request.data.get(
+                "module"
+            )
+
+            topic_id = request.data.get(
+                "topic"
+            )
+
+            knowledge = load_all_knowledge(module_id, topic_id)
 
             prompt = f"""
                 Você é um assistente educacional.
-
-                Seu foco é ensinar:
-                - cidadania
-                - direitos fundamentais
-                - Constituição Federal de 1988
-                - direitos básicos
 
                 Utilize prioritariamente o conteúdo abaixo:
 
