@@ -100,7 +100,7 @@ class SubmitQuizView(APIView):
 
             return Response(
                 {
-                    "detail": "Topic not found"
+                    "detail": "Tópico não encontrado."
                 },
                 status=status.HTTP_404_NOT_FOUND
             )
@@ -114,7 +114,7 @@ class SubmitQuizView(APIView):
         if not is_unlocked:
             return Response(
                 {
-                    "detail": "Topic locked"
+                    "detail": "Tópico bloqueado."
                 },
                 status=status.HTTP_403_FORBIDDEN
             )
@@ -174,7 +174,7 @@ class SubmitQuizView(APIView):
                 "topic_completed": True,
 
                 "correct_answers": correct_answers,
-    
+
                 "total_questions": len(answers),
 
                 "saved_answers": saved_answers
