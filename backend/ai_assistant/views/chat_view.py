@@ -16,6 +16,10 @@ from ai_assistant.utils.load_knowledge import (
     load_all_knowledge
 )
 
+from ai_assistant.prompts.system_prompts import (
+    SYSTEM_PROMPT
+)
+
 from ai_assistant.gemini import client
 
 from content.models import Topic
@@ -42,7 +46,7 @@ class ChatView(APIView):
             knowledge = load_all_knowledge(module_id, topic_id)
 
             prompt = f"""
-                Você é um assistente educacional.
+                {SYSTEM_PROMPT}
 
                 Utilize prioritariamente o conteúdo abaixo:
 
