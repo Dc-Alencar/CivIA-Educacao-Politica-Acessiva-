@@ -1,0 +1,188 @@
+.modules-body {
+  background-color: #f8f8f6;
+  background-image: none;
+  display: flex;
+  justify-content: center;
+  padding: 4rem 1rem;
+}
+
+.modules-container {
+  width: 100%;
+  max-width: 600px;  margin: 0 auto; /* Centraliza o max-width horizontalmente */}
+
+.modules-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.modules-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  color: var(--color-text-main);
+  margin-bottom: 0.5rem;
+}
+
+.modules-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.module-card {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border-left: 6px solid var(--color-primary);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.module-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.module-card:nth-child(1) { border-left-color: var(--dot-green); }
+.module-card:nth-child(2) { border-left-color: var(--dot-orange); } 
+.module-card:nth-child(3) { border-left-color: var(--dot-blue); }
+.module-card:nth-child(4) { border-left-color: #d1d5db; } 
+.module-card:nth-child(5) { border-left-color: #d1d5db; }
+
+.module-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.module-card:nth-child(1) .module-icon { background-color: #ecfdf5; color: #059669; }
+.module-card:nth-child(2) .module-icon { background-color: #fff7ed; color: #ea580c; }
+.module-card:nth-child(3) .module-icon { background-color: #eff6ff; color: #2563eb; }
+
+.module-info {
+  flex: 1;
+}
+
+.module-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.module-card:nth-child(1) .module-label { color: #059669; }
+.module-card:nth-child(2) .module-label { color: #ea580c; }
+.module-card:nth-child(3) .module-label { color: #2563eb; }
+
+
+.module-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+  color: var(--color-text-main);
+}
+
+.module-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.module-status {
+  margin-left: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #e5e7eb;
+}
+.status-green { color: #059669; border-color: #059669; border-right-color: #e5e7eb; } /* Trick basico CSS para meio loading */
+.status-orange { color: #ea580c; }
+
+/* ESTADOS DE DESABILITADO (EM CONSTRUÇÃO) */
+.module-card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-left-width: 3px;
+  border-left-color: #fca5a5; 
+}
+.module-card.disabled:nth-child(4) { border-left-color: #fdba74; }
+.module-card.disabled:nth-child(5) { border-left-color: #fca5a5; }
+
+
+.module-card.disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
+}
+
+.module-card.disabled .module-label,
+.module-card.disabled .module-name {
+  color: #9ca3af;
+}
+
+.module-card.disabled .module-icon {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+}
+
+
+.module-card.disabled::after {
+  content: "Em construção.";
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1f2937;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.module-card.disabled::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #1f2937 transparent transparent transparent;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.module-card.disabled:hover::after,
+.module-card.disabled:hover::before {
+  opacity: 1;
+  visibility: visible;
+  top: -40px; 
+}
+.module-card.disabled:hover::before {
+  top: -14px;
+}

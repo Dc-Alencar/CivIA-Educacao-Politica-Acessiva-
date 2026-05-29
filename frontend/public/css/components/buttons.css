@@ -1,0 +1,28 @@
+.btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #174bb0;
+  color: #ffffff;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  padding: 0.9rem 2rem;
+}

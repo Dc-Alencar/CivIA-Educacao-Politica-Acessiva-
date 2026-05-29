@@ -1,0 +1,82 @@
+.home-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  margin-bottom: 2rem;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-main);
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  line-height: 1.1;
+  color: var(--color-primary-light);
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+  line-height: 1.6;
+}
+
+.hero-cta {
+  margin-bottom: 4rem;
+}
+
+.topics-list {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.topics-list li {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.topics-list li::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.topic-cidadao::before { background-color: var(--dot-green); }
+.topic-estado::before { background-color: var(--dot-yellow); }
+.topic-democracia::before { background-color: var(--dot-blue); }
+.topic-direitos::before { background-color: var(--dot-orange); }
+.topic-seguranca::before { background-color: var(--dot-red); }
+
+@media (max-width: 768px) {
+  .hero-title, .hero-subtitle {
+    font-size: 2.5rem;
+  }
+}
