@@ -123,6 +123,8 @@ class SubmitQuizView(APIView):
 
         saved_answers = []
 
+        feedback = []
+
         correct_answers = 0
 
         # Salva respostas
@@ -146,17 +148,42 @@ class SubmitQuizView(APIView):
 
                 continue
 
-            answer = UserAnswer.objects.create(
+            correct_alternative = Alternative.objects.filter(
+                question=question,
+                is_correct=True
+            ).first()
+
+            answer, created = UserAnswer.objects.update_or_create(
                 user=request.user,
                 question=question,
-                selected_alternative=alternative,
-                is_correct=alternative.is_correct
+                defaults={
+                    "selected_alternative": alternative,
+                    "is_correct": alternative.is_correct
+                }
             )
 
             saved_answers.append(answer.id)
 
             if alternative.is_correct:
                 correct_answers += 1
+
+            feedback.append(
+                {
+                    "question_id": question.id,
+                    "question": question.text,
+                    "correct": alternative.is_correct,
+                    "your_answer": {
+                        "id": alternative.id,
+                        "text": alternative.text
+                    },
+
+                    "correct_answer": {
+                        "id": correct_alternative.id,
+                        "text": correct_alternative.text
+                    },
+                    "explanation": question.explanation
+                }
+            )
 
         # Marca tópico como concluído
         UserProgress.objects.update_or_create(
@@ -177,7 +204,9 @@ class SubmitQuizView(APIView):
 
                 "total_questions": len(answers),
 
-                "saved_answers": saved_answers
+                "saved_answers": saved_answers,
+
+                "feedback": feedback
             },
             status=status.HTTP_201_CREATED
         )

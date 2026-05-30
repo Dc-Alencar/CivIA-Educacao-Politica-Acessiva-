@@ -7,6 +7,10 @@ from content.models import Topic
 
 from quizzes.serializers import QuestionSerializer
 
+import random
+
+from rest_framework.response import Response
+
 class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
 
     serializer_class = QuestionSerializer
@@ -25,33 +29,41 @@ class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
             "topic_order"
         )
 
-        limit = self.request.query_params.get(
-            "limit"
-        )
-        
-        # filtra por módulo
+        # Filtra por módulo
         if module_order:
 
             queryset = queryset.filter(
                 topic__module__order=module_order
             )
-            
-        # filtra por tópico
+
+        # Filtra por tópico
         if topic_order:
 
             queryset = queryset.filter(
                 topic__order=topic_order
             )
-        
-        queryset = queryset.order_by("id")
 
-        # Limita quantidade
+        return queryset
+    
+    # Aleatoriza as questões e filtra o número de questões na requisição
+    def list(self, request, *args, **kwargs):
+
+        queryset = list(self.get_queryset())
+
+        random.shuffle(queryset)
+
+        limit = request.query_params.get("limit")
+
         if limit:
 
             try:
                 queryset = queryset[:int(limit)]
-
             except ValueError:
                 pass
 
-        return queryset
+        serializer = self.get_serializer(
+            queryset,
+            many=True
+        )
+
+        return Response(serializer.data)

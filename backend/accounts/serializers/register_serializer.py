@@ -19,6 +19,27 @@ class RegisterSerializer(serializers.ModelSerializer):
             "username",
             "password",
         )
+
+    # Valida se nome de usuário(usename) cumpre os requisitos mínimos:
+    # - Mínimo de 6 caracteres
+    # - Não pode conter espaços em branco. Ex.: "username": "joão silva" (deveria ser "joão_silva")
+    def validate_username(self, value):
+
+        value = value.strip()
+
+        if len(value) < 6:
+
+            raise serializers.ValidationError(
+                "O nome de usuário deve possuir pelo menos 6 caracteres."
+            )
+
+        if " " in value:
+
+            raise serializers.ValidationError(
+                "O nome de usuário não pode conter espaços."
+            )
+
+        return value
     
     # Valida se senha cumpre os requistios mínimos:
     # - Mínimo de 8 caracteres
