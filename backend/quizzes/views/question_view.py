@@ -29,12 +29,14 @@ class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
             "topic_order"
         )
 
+        # Filtra por módulo
         if module_order:
 
             queryset = queryset.filter(
                 topic__module__order=module_order
             )
 
+        # Filtra por tópico
         if topic_order:
 
             queryset = queryset.filter(
@@ -43,6 +45,7 @@ class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
 
         return queryset
     
+    # Aleatoriza as questões e filtra o número de questões na requisição
     def list(self, request, *args, **kwargs):
 
         queryset = list(self.get_queryset())
