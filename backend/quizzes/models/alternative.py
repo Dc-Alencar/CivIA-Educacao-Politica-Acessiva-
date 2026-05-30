@@ -7,7 +7,6 @@ class Alternative(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="alternatives")
     text = models.TextField()
     is_correct = models.BooleanField(default=False)
-    explanation = models.TextField(blank=True)
 
     class Meta:
         ordering = ["question", "-is_correct", "text"]

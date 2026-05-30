@@ -5,6 +5,11 @@ class Question(models.Model):
     topic = models.ForeignKey("content.Topic", on_delete=models.CASCADE, related_name="questions")
     text = models.TextField()
 
+    explanation = models.TextField(
+        blank=True,
+        default=""
+    )
+
     class Meta:
         ordering = ["topic", "text"]
 
