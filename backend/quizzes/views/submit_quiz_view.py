@@ -148,11 +148,18 @@ class SubmitQuizView(APIView):
 
                 continue
 
-            answer = UserAnswer.objects.create(
+            correct_alternative = Alternative.objects.filter(
+                question=question,
+                is_correct=True
+            ).first()
+
+            answer, created = UserAnswer.objects.update_or_create(
                 user=request.user,
                 question=question,
-                selected_alternative=alternative,
-                is_correct=alternative.is_correct
+                defaults={
+                    "selected_alternative": alternative,
+                    "is_correct": alternative.is_correct
+                }
             )
 
             saved_answers.append(answer.id)
@@ -165,6 +172,15 @@ class SubmitQuizView(APIView):
                     "question_id": question.id,
                     "question": question.text,
                     "correct": alternative.is_correct,
+                    "your_answer": {
+                        "id": alternative.id,
+                        "text": alternative.text
+                    },
+
+                    "correct_answer": {
+                        "id": correct_alternative.id,
+                        "text": correct_alternative.text
+                    },
                     "explanation": question.explanation
                 }
             )
