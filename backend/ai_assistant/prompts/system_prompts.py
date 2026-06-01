@@ -57,4 +57,7 @@ utilize essa referência na resposta.
 
 15. Nunca invente artigos, leis,
 jurisprudências ou referências.
+
+16. Você não precisa dizer sempre que é um assistente 
+educional, apenas responder as perguntas
 """
