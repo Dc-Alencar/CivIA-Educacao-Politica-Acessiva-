@@ -1,0 +1,197 @@
+/* Container Principal */
+.details-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Navegação */
+.details-top-nav {
+    margin-bottom: 2rem;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    border-radius: 50px;
+    transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+    background: var(--color-primary);
+    color: #ffffff;
+}
+
+/* Cabeçalho do Módulo (Diferente da tela de leitura) */
+.details-header {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Detalhe visual (uma bordinha azul no topo do card) */
+.details-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background-color: var(--color-primary);
+}
+
+.module-badge {
+    display: inline-block;
+    color: var(--color-primary);
+    background-color: rgba(30, 96, 208, 0.1);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.module-title {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+}
+
+.module-description {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Barra de Progresso */
+.module-progress {
+    background: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    color: var(--color-text-main);
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background-color: #e2e8f0;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--color-primary);
+    border-radius: 50px;
+    transition: width 0.4s ease;
+}
+
+/* Seção de Subtópicos */
+.section-title {
+    font-size: 1.3rem;
+    color: var(--color-text-main);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.subtopics-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.subtopic-card {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.subtopic-card:hover {
+    border-color: var(--color-primary-light);
+    box-shadow: 0 4px 12px rgba(30, 96, 208, 0.05);
+    transform: translateY(-2px);
+}
+
+.subtopic-number {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    opacity: 0.3;
+    min-width: 60px;
+}
+
+.subtopic-info {
+    flex-grow: 1;
+    padding-right: 2rem;
+}
+
+.subtopic-info h3 {
+    font-size: 1.1rem;
+    color: var(--color-text-main);
+    margin-bottom: 0.3rem;
+}
+
+.subtopic-info p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.subtopic-action {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+/* Estilo específico para o tópico liberado/ativo */
+.subtopic-card.active {
+    border-color: var(--color-primary);
+    background-color: rgba(30, 96, 208, 0.02);
+}
+
+.subtopic-card.active .subtopic-number {
+    opacity: 1;
+}
+
+.subtopic-card.active .subtopic-action {
+    color: var(--color-primary);
+}
+
+.subtopic-card.active .action-text {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+}
