@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
 
 :root {
-  /* Colors */
   --color-primary: #1e60d0;
   --color-primary-light: #5ba4fc;
   --color-text-main: #111111;
@@ -9,14 +8,12 @@
   --color-bg: #ffffff;
   --color-bg-gradient: linear-gradient(180deg, rgba(255,255,255,1) 60%, rgba(220,235,255,0.6) 100%);
   
-  /* Dots */
   --dot-green: #34d399;
   --dot-yellow: #fbbf24;
   --dot-blue: #60a5fa;
   --dot-orange: #fb923c;
   --dot-red: #ef4444;
 
-  /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
 }

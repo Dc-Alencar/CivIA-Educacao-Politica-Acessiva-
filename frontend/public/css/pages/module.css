@@ -1,11 +1,9 @@
-/* Container Principal */
 .module-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem 1rem;
 }
 
-/* Navegação Superior */
 .module-top-nav {
     display: flex;
     justify-content: space-between;
@@ -85,7 +83,6 @@
     text-transform: uppercase;
 }
 
-/* Área de Leitura (Artigo) */
 .topic-section {
     background: var(--color-bg);
     padding: 3rem;

@@ -8,7 +8,7 @@
 
 .modules-container {
   width: 100%;
-  max-width: 600px;  margin: 0 auto; /* Centraliza o max-width horizontalmente */}
+  max-width: 600px;  margin: 0 auto; }
 
 .modules-header {
   text-align: center;
@@ -111,7 +111,7 @@
   justify-content: center;
   border: 3px solid #e5e7eb;
 }
-.status-green { color: #059669; border-color: #059669; border-right-color: #e5e7eb; } /* Trick basico CSS para meio loading */
+.status-green { color: #059669; border-color: #059669; border-right-color: #e5e7eb; }
 .status-orange { color: #ea580c; }
 
 /* ESTADOS DE DESABILITADO (EM CONSTRUÇÃO) */
