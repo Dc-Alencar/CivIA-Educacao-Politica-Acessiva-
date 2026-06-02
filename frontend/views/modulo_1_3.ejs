@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<%- include('includes/head.ejs') %>
+
+    <body>
+
+        <div class="module-container">
+            <nav class="module-top-nav">
+                <a href="/modulos/1" class="btn btn-outline">← Voltar para os tópicos do módulo</a>
+                <span>Módulo 1 de 5</span>
+            </nav>
+
+            <header class="module-hero">
+                <h1 class="module-title">O Cidadão e a Vida em Sociedade</h1>
+                <p class="module-subtitle">A base ética e o convívio direto entre as pessoas — o ponto de partida de
+                    toda vida cívica.</p>
+
+                <div class="module-meta">
+                    <div class="meta-item">
+                        <strong>1.2</strong>
+                        <span>Tópico Atual</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>~5 min</strong>
+                        <span>Leitura</span>
+                    </div>
+                </div>
+            </header>
+
+            <main class="module-content">
+
+                <article class="topic-section">
+                    <span class="section-label">TÓPICO 1.3</span>
+                    <h2>Deveres do cidadão</h2>
+
+                    <p>Depois de entender os direitos previstos na Constituição Federal, é preciso também reconhecer os
+                        deveres do cidadão para participar da sociedade e servir a nação.</p>
+                    <p>A famosa Constituição de 1988 não possui um artigo único que resume todos os deveres, mas mostra
+                        alguns deles no decorrer do texto.</p>
+
+                    <div class="callout-box">
+                        <span style="font-size: 1.5em;">
+                            <div>
+                                <strong>Voto: a escolha decisiva</strong>
+                                <p>Ao mesmo tempo que o voto é um <strong>direito</strong> garantido ao cidadão, ele
+                                    também é considerado um dos mais importantes <strong>deveres</strong>. É através
+                                    dele que os indivíduos escolhem os seus representantes que vão propor, criar e
+                                    colocar em prática as leis que garantem a ordem e a prosperidade do País. Hoje, o
+                                    ato de votar é obrigatório para pessoas entre os 18 e 70 anos de idade.</p>
+                            </div>
+                        </span>
+                    </div>
+
+                    <div>
+                        <div>
+                            <strong>Impostos: o 'financiamento'</strong>
+                            <p>Para a garantia dos direitos fundamentais presentes na Constituição Federal, o cidadão
+                                tem como dever contribuir com uma quantia em dinheiro conhecida popularmente como
+                                imposto. Esse valor arrecadado é destinado para a manutenção dos diversos serviços
+                                públicos como saúde, educação, segurança, infraestrutura e saneamento básico.</p>
+                            <p>Estão divididos em três esferas: Federais, destinado ao Governo Federal; Estaduais,
+                                destinado aos Governos dos Estados; Municipais, destinados as prefeituras.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            <strong>Alistamento Militar</strong>
+                            <p>A defesa nacional é um dever fundamental de todo cidadão. Por isso, a lei Nº 4375 define
+                                que o alistamento e serviço militar é obrigatório entre os homens a partir dos 18 anos.
+                                Já as mulheres podem participar de forma voluntária.</p>
+                            <p>Para grupos que possuem motivações culturais ou políticas contrárias à guerra, a
+                                Constituição Cidadã defende o direcionamento para um serviço alternativo (tarefas
+                                administrativas ou humanitárias). Se um indivíduo recusar fazer parte do serviço militar
+                                (pegando em armas ou não), seus direitos políticos podem ser perdidos.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            <strong>Proteção ao patrimônio</strong>
+                            <p>No artigo 5, a Constituição dá ao cidadão o poder de ser um fiscal do patrimônio
+                                histórico, artístico e ambiental do país. Qualquer cidadão pode propor uma Ação Popular
+                                na Justiça, com o objetivo de anular atos que possam causar danos ao patrimônio público.
+                                Esse é um exemplo de como o cidadão participa ativamente das decisões para proteger o
+                                que é de todos.</p>
+                        </div>
+                    </div>
+
+
+                    <h3></h3>
+                    <p></p>
+                </article>
+
+                <hr class="section-divider">
+            </main>
+        </div>
+        <button id="ai-chat-btn" class="ai-chat-fab">
+            💬
+        </button>
+
+        <div id="ai-chat-window" class="ai-chat-window hidden">
+            <div class="ai-chat-header">
+                <span class="ai-title">Assistente de Estudo</span>
+                <button id="ai-chat-close" class="ai-close-btn">✖</button>
+            </div>
+
+            <div class="ai-chat-messages" id="ai-messages">
+                <div class="message ai-message">
+                    Olá! Sou sua IA de estudos. Qual a sua dúvida sobre este módulo?
+                </div>
+            </div>
+
+            <div class="ai-chat-input-area">
+                <input type="text" id="ai-chat-input" placeholder="Digite sua dúvida...">
+                <button id="ai-chat-send" class="ai-send-btn">Enviar</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatFab = document.getElementById('ai-chat-btn');
+            const chatWindow = document.getElementById('ai-chat-window');
+            const closeBtn = document.getElementById('ai-chat-close');
+            const sendBtn = document.getElementById('ai-chat-send');
+            const chatInput = document.getElementById('ai-chat-input');
+            const messagesContainer = document.getElementById('ai-messages');
+
+            chatFab.addEventListener('click', () => {
+                chatWindow.classList.toggle('hidden');
+                if (!chatWindow.classList.contains('hidden')) {
+                    chatInput.focus();
+                }
+            });
+
+            closeBtn.addEventListener('click', () => {
+                chatWindow.classList.add('hidden');
+            });
+
+            const appendMessage = (text, sender) => {
+                if (!text) return;
+
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+
+                messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                return messageDiv;
+            };
+
+            const handleSend = async () => {
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                appendMessage(text, 'user');
+                chatInput.value = '';
+
+                const typingIndicator = appendMessage('Pensando...', 'ai');
+
+                try {
+                    const token = localStorage.getItem('civia_access_token');
+
+                    if (!token) {
+                        typingIndicator.innerHTML = 'Você precisa estar logado para utilizar o chat.';
+                        return;
+                    }
+
+                    const currentModule = 1;
+                    const currentTopic = 1;
+
+                    const response = await fetch('http://127.0.0.1:8000/api/ai_assistant/chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            message: text,
+                            module: currentModule,
+                            topic: currentTopic
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        typingIndicator.innerHTML = data.response.replace(/\n/g, '<br>');
+                    } else if (response.status === 401 || response.status === 403) {
+                        typingIndicator.innerHTML = 'Sua sessão expirou. Por favor, faça login novamente.';
+                    } else {
+                        typingIndicator.innerHTML = 'Ocorreu um erro ao processar sua dúvida. Tente novamente.';
+                    }
+
+                } catch (error) {
+                    console.error('Erro no chat:', error);
+                    typingIndicator.innerHTML = 'Erro de conexão com o servidor.';
+                }
+
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            };
+
+            sendBtn.addEventListener('click', handleSend);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSend();
+            });
+        });
+    </script>
+
+</html>

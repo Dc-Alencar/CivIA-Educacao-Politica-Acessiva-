@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<%- include('includes/head.ejs') %>
+
+    <body>
+
+        <div class="module-container">
+            <nav class="module-top-nav">
+                <a href="/modulos/1" class="btn btn-outline">← Voltar para os tópicos do módulo</a>
+                <span>Módulo 1 de 5</span>
+            </nav>
+
+            <header class="module-hero">
+                <h1 class="module-title">O Cidadão e a Vida em Sociedade</h1>
+                <p class="module-subtitle">A base ética e o convívio direto entre as pessoas — o ponto de partida de
+                    toda vida cívica.</p>
+
+                <div class="module-meta">
+                    <div class="meta-item">
+                        <strong>1.2</strong>
+                        <span>Tópico Atual</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>~5 min</strong>
+                        <span>Leitura</span>
+                    </div>
+                </div>
+            </header>
+
+            <main class="module-content">
+
+                <article class="topic-section">
+                    <span class="section-label">TÓPICO 1.2</span>
+                    <h2>Moral e Ética</h2>
+
+                    <p>Você já deve ter ouvido falar nos termos "Moral" e "Ética" e achou que são duas palavras que
+                        definem a mesma coisa? Essa confusão é normal, pois elas sempre andaram juntas.</p>
+                    <p>Neste capitulo vamos esclarecer a diferença entre esses dois conceitos fundamentais para entender
+                        a convivência em sociedade e a política.</p>
+
+                    <div class="callout-box">
+                        <span style="font-size: 1.5em;">
+                            <div>
+                                <strong>Moral: A régua da sociedade</strong>
+                                <p>O termo "Moral", originado do grego mores (costumes), é definido como o conjunto de
+                                    normas, regras e valores que <strong>ditam como a sociedade deve agir</strong> para
+                                    garantir a boa convivência.</p>
+                                <p>Esse conjunto pode variar de acordo com a cultura, religião ou até mesmo acompanhar
+                                    as mudanças das relações sociais.</p>
+                            </div>
+                        </span>
+                    </div>
+
+                    <div>
+                        <div>
+                            <strong>Ética: como o indivíduo se constrói</strong>
+                            <p>A “Ética”, do grego ethos (modo de ser), é a forma que os indivíduos
+                                <strong>olham</strong> para os princípios morais (normas ou valores) da sua cultura e
+                                <strong>fazem questionamentos</strong> sobre eles, <strong>moldando</strong> o seu
+                                caráter e o <strong>jeito</strong> que vai agir.
+                            </p>
+                            <p>Em outras palavras, a ética é o ato de refletir sobre a Moral que o indivíduo está
+                                inserido.</p>
+                        </div>
+                    </div>
+
+                    <h3>Exemplo prático</h3>
+                    <p>Para a Moral, em qualquer sociedade, o ato de roubar é considerado errado e um crime previsto por
+                        lei. Ir contra esse princípio faz o indivíduo ser considerado imoral.</p>
+                    <p>Mas e se um pai ou uma mãe rouba um pacote de bolacha para os filhos famintos? Eles serão mal
+                        vistos igual alguém que rouba por roubar? Pela lei, sim.</p>
+                    <p>É nesse momento que entra a Ética. É justo achar que esse pai ou mãe merece a punição? Fica essa
+                        reflexão.</p>
+                </article>
+
+                <hr class="section-divider">
+            </main>
+        </div>
+        <button id="ai-chat-btn" class="ai-chat-fab">
+            💬
+        </button>
+
+        <div id="ai-chat-window" class="ai-chat-window hidden">
+            <div class="ai-chat-header">
+                <span class="ai-title">Assistente de Estudo</span>
+                <button id="ai-chat-close" class="ai-close-btn">✖</button>
+            </div>
+
+            <div class="ai-chat-messages" id="ai-messages">
+                <div class="message ai-message">
+                    Olá! Sou sua IA de estudos. Qual a sua dúvida sobre este módulo?
+                </div>
+            </div>
+
+            <div class="ai-chat-input-area">
+                <input type="text" id="ai-chat-input" placeholder="Digite sua dúvida...">
+                <button id="ai-chat-send" class="ai-send-btn">Enviar</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatFab = document.getElementById('ai-chat-btn');
+            const chatWindow = document.getElementById('ai-chat-window');
+            const closeBtn = document.getElementById('ai-chat-close');
+            const sendBtn = document.getElementById('ai-chat-send');
+            const chatInput = document.getElementById('ai-chat-input');
+            const messagesContainer = document.getElementById('ai-messages');
+
+            chatFab.addEventListener('click', () => {
+                chatWindow.classList.toggle('hidden');
+                if (!chatWindow.classList.contains('hidden')) {
+                    chatInput.focus();
+                }
+            });
+
+            closeBtn.addEventListener('click', () => {
+                chatWindow.classList.add('hidden');
+            });
+
+            const appendMessage = (text, sender) => {
+                if (!text) return;
+
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+
+                messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                return messageDiv;
+            };
+
+            const handleSend = async () => {
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                appendMessage(text, 'user');
+                chatInput.value = '';
+
+                const typingIndicator = appendMessage('Pensando...', 'ai');
+
+                try {
+                    const token = localStorage.getItem('civia_access_token');
+
+                    if (!token) {
+                        typingIndicator.innerHTML = 'Você precisa estar logado para utilizar o chat.';
+                        return;
+                    }
+
+                    const currentModule = 1;
+                    const currentTopic = 1;
+
+                    const response = await fetch('http://127.0.0.1:8000/api/ai_assistant/chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            message: text,
+                            module: currentModule,
+                            topic: currentTopic
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        typingIndicator.innerHTML = data.response.replace(/\n/g, '<br>');
+                    } else if (response.status === 401 || response.status === 403) {
+                        typingIndicator.innerHTML = 'Sua sessão expirou. Por favor, faça login novamente.';
+                    } else {
+                        typingIndicator.innerHTML = 'Ocorreu um erro ao processar sua dúvida. Tente novamente.';
+                    }
+
+                } catch (error) {
+                    console.error('Erro no chat:', error);
+                    typingIndicator.innerHTML = 'Erro de conexão com o servidor.';
+                }
+
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            };
+
+            sendBtn.addEventListener('click', handleSend);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSend();
+            });
+        });
+    </script>
+
+</html>

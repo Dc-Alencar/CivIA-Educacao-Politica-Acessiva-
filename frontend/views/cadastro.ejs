@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title><%= title || 'Cadastro - CivIA' %></title>
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components/buttons.css">
     <link rel="stylesheet" href="/css/components/forms.css">
@@ -16,7 +16,7 @@
             
             <div class="auth-header">
                 <h1 class="auth-logo">Civ<span>IA</span></h1>
-                <p>Realize seu cadastro para acompanhar o progresso dos seus estudos.</p>
+                <p>Crie sua conta e comece a aprender.</p>
             </div>
 
             <div class="auth-tabs">
@@ -24,26 +24,94 @@
                 <a href="/cadastro" class="auth-tab active">Cadastrar</a>
             </div>
 
-            <form id="cadastro-form">
+            <form id="register-form">
                 <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                    <label for="username">Nome de Usuário</label>
+                    <input type="text" id="username" name="username" placeholder="Escolha um nome de usuário" required>
+                    <small id="username-error" style="color: red; display: none; margin-top: 5px;"></small>
                 </div>
                 
                 <div class="form-group">
                     <label for="senha">Senha</label>
-                    <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+                    <input type="password" id="senha" name="senha" placeholder="Mínimo 8 caracteres, 1 número e 1 especial" required>
+                    <small id="password-error" style="color: red; display: none; margin-top: 5px;"></small>
                 </div>
-                
-                <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+
+                <div class="form-group">
+                    <label for="confirmar-senha">Confirmar Senha</label>
+                    <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Digite a senha novamente" required>
+                    <small id="confirm-error" style="color: red; display: none; margin-top: 5px;"></small>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Criar Conta</button>
             </form>
 
             <div class="auth-footer">
-                <p>Só explorar? <a href="/">Continuar sem conta</a></p>
+                <p>Já tem uma conta? <a href="/login">Faça login</a></p>
             </div>
 
         </div>
     </main>
 
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('senha').value;
+            const confirmPassword = document.getElementById('confirmar-senha').value;
+            
+            const usernameError = document.getElementById('username-error');
+            const passwordError = document.getElementById('password-error');
+            const confirmError = document.getElementById('confirm-error');
+            
+            usernameError.style.display = 'none';
+            passwordError.style.display = 'none';
+            confirmError.style.display = 'none';
+
+            if (password !== confirmPassword) {
+                confirmError.textContent = "As senhas não coincidem.";
+                confirmError.style.display = 'block';
+                return; 
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/accounts/register/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        username: username, 
+                        password: password 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.status === 201) { 
+                    localStorage.setItem('civia_access_token', data.access);
+                    localStorage.setItem('civia_refresh_token', data.refresh);
+                    
+                    window.location.href = '/modulos'; 
+                } 
+                else if (response.status === 400) { 
+                    if (data.username) {
+                        usernameError.textContent = data.username[0]; 
+                        usernameError.style.display = 'block';
+                    }
+                    if (data.password) {
+                        passwordError.textContent = data.password[0]; 
+                        passwordError.style.display = 'block';
+                    }
+                } else {
+                    alert('Ocorreu um erro inesperado ao criar a conta. Tente novamente.');
+                }
+            } catch (error) {
+                console.error('Erro de conexão:', error);
+                alert('Erro ao conectar com o servidor.');
+            }
+        });
+    </script>
 </body>
 </html>
