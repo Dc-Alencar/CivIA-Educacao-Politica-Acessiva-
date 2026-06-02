@@ -57,7 +57,8 @@
                             <p>A “Ética”, do grego ethos (modo de ser), é a forma que os indivíduos
                                 <strong>olham</strong> para os princípios morais (normas ou valores) da sua cultura e
                                 <strong>fazem questionamentos</strong> sobre eles, <strong>moldando</strong> o seu
-                                caráter e o <strong>jeito</strong> que vai agir.</p>
+                                caráter e o <strong>jeito</strong> que vai agir.
+                            </p>
                             <p>Em outras palavras, a ética é o ato de refletir sobre a Moral que o indivíduo está
                                 inserido.</p>
                         </div>
@@ -75,7 +76,118 @@
                 <hr class="section-divider">
             </main>
         </div>
+        <button id="ai-chat-btn" class="ai-chat-fab">
+            💬
+        </button>
 
+        <div id="ai-chat-window" class="ai-chat-window hidden">
+            <div class="ai-chat-header">
+                <span class="ai-title">Assistente de Estudo</span>
+                <button id="ai-chat-close" class="ai-close-btn">✖</button>
+            </div>
+
+            <div class="ai-chat-messages" id="ai-messages">
+                <div class="message ai-message">
+                    Olá! Sou sua IA de estudos. Qual a sua dúvida sobre este módulo?
+                </div>
+            </div>
+
+            <div class="ai-chat-input-area">
+                <input type="text" id="ai-chat-input" placeholder="Digite sua dúvida...">
+                <button id="ai-chat-send" class="ai-send-btn">Enviar</button>
+            </div>
+        </div>
     </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatFab = document.getElementById('ai-chat-btn');
+            const chatWindow = document.getElementById('ai-chat-window');
+            const closeBtn = document.getElementById('ai-chat-close');
+            const sendBtn = document.getElementById('ai-chat-send');
+            const chatInput = document.getElementById('ai-chat-input');
+            const messagesContainer = document.getElementById('ai-messages');
+
+            chatFab.addEventListener('click', () => {
+                chatWindow.classList.toggle('hidden');
+                if (!chatWindow.classList.contains('hidden')) {
+                    chatInput.focus();
+                }
+            });
+
+            closeBtn.addEventListener('click', () => {
+                chatWindow.classList.add('hidden');
+            });
+
+            const appendMessage = (text, sender) => {
+                if (!text) return;
+
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+
+                messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                return messageDiv;
+            };
+
+            const handleSend = async () => {
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                appendMessage(text, 'user');
+                chatInput.value = '';
+
+                const typingIndicator = appendMessage('Pensando...', 'ai');
+
+                try {
+                    const token = localStorage.getItem('civia_access_token');
+
+                    if (!token) {
+                        typingIndicator.innerHTML = 'Você precisa estar logado para utilizar o chat.';
+                        return;
+                    }
+
+                    const currentModule = 1;
+                    const currentTopic = 1;
+
+                    const response = await fetch('http://127.0.0.1:8000/api/ai_assistant/chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            message: text,
+                            module: currentModule,
+                            topic: currentTopic
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        typingIndicator.innerHTML = data.response.replace(/\n/g, '<br>');
+                    } else if (response.status === 401 || response.status === 403) {
+                        typingIndicator.innerHTML = 'Sua sessão expirou. Por favor, faça login novamente.';
+                    } else {
+                        typingIndicator.innerHTML = 'Ocorreu um erro ao processar sua dúvida. Tente novamente.';
+                    }
+
+                } catch (error) {
+                    console.error('Erro no chat:', error);
+                    typingIndicator.innerHTML = 'Erro de conexão com o servidor.';
+                }
+
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            };
+
+            sendBtn.addEventListener('click', handleSend);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSend();
+            });
+        });
+    </script>
 
 </html>

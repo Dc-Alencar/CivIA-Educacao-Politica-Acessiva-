@@ -114,36 +114,73 @@
             });
 
             const appendMessage = (text, sender) => {
-                if (!text.trim()) return;
+                if (!text) return;
 
                 const messageDiv = document.createElement('div');
                 messageDiv.classList.add('message');
                 messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
-                messageDiv.textContent = text;
+
+                messageDiv.innerHTML = text.replace(/\n/g, '<br>');
 
                 messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                return messageDiv;
+            };
+
+            const handleSend = async () => {
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                appendMessage(text, 'user');
+                chatInput.value = '';
+
+                const typingIndicator = appendMessage('Pensando...', 'ai');
+
+                try {
+                    const token = localStorage.getItem('civia_access_token');
+
+                    if (!token) {
+                        typingIndicator.innerHTML = 'Você precisa estar logado para utilizar o chat.';
+                        return;
+                    }
+
+                    const currentModule = 1;
+                    const currentTopic = 1;
+
+                    const response = await fetch('http://127.0.0.1:8000/api/ai_assistant/chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            message: text,
+                            module: currentModule,
+                            topic: currentTopic
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        typingIndicator.innerHTML = data.response.replace(/\n/g, '<br>');
+                    } else if (response.status === 401 || response.status === 403) {
+                        typingIndicator.innerHTML = 'Sua sessão expirou. Por favor, faça login novamente.';
+                    } else {
+                        typingIndicator.innerHTML = 'Ocorreu um erro ao processar sua dúvida. Tente novamente.';
+                    }
+
+                } catch (error) {
+                    console.error('Erro no chat:', error);
+                    typingIndicator.innerHTML = 'Erro de conexão com o servidor.';
+                }
 
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             };
 
-            const handleSend = () => {
-                const text = chatInput.value;
-                if (text.trim() !== '') {
-                    appendMessage(text, 'user');
-                    chatInput.value = ''; 
-
-                    setTimeout(() => {
-                        appendMessage('Estou processando sua dúvida. Conecte-me ao backend para gerar respostas reais!', 'ai');
-                    }, 1500);
-                }
-            };
-
             sendBtn.addEventListener('click', handleSend);
-
             chatInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    handleSend();
-                }
+                if (e.key === 'Enter') handleSend();
             });
         });
     </script>
