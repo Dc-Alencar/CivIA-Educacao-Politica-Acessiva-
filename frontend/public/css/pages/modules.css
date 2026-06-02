@@ -1,5 +1,5 @@
 .modules-body {
-  background-color: #f8f8f6;
+  background: linear-gradient(135deg, #fcfcfc 0%, #f1f5f9 100%);
   background-image: none;
   display: flex;
   justify-content: center;
@@ -47,7 +47,7 @@
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-.module-card:nth-child(1) { border-left-color: var(--dot-green); }
+.module-card:nth-child(1) { border-left-color: var(--dot-blue); }
 .module-card:nth-child(2) { border-left-color: var(--dot-orange); } 
 .module-card:nth-child(3) { border-left-color: var(--dot-blue); }
 .module-card:nth-child(4) { border-left-color: #d1d5db; } 

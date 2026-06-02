@@ -26,8 +26,8 @@
 
             <form id="login-form">
                 <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                    <label for="username">Nome de Usuário</label>
+                    <input type="text" id="username" name="username" placeholder="Seu nome de usuário" required>
                 </div>
                 
                 <div class="form-group">
@@ -35,14 +35,53 @@
                     <input type="password" id="senha" name="senha" placeholder="••••••••" required>
                 </div>
                 
+                <p id="login-error" style="color: red; font-size: 0.9rem; display: none; margin-bottom: 1rem;">Usuário ou senha incorretos.</p>
+
                 <button type="submit" class="btn btn-primary btn-block">Entrar</button>
             </form>
 
             <div class="auth-footer">
-                <p>Só explorar? <a href="/">Continuar sem conta</a></p>
+                <p>Só explorar? <a href="/modulos">Continuar sem conta</a></p>
             </div>
 
         </div>
     </main>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('senha').value;
+            const errorMsg = document.getElementById('login-error');
+            
+            errorMsg.style.display = 'none'; 
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/accounts/login/', { 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: username, password: password }) 
+                });
+
+                if (response.ok) { 
+                    const data = await response.json();
+                    
+                    localStorage.setItem('civia_access_token', data.access);
+                    localStorage.setItem('civia_refresh_token', data.refresh);
+                    
+                    window.location.href = '/modulos'; 
+                } else {
+                    errorMsg.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                errorMsg.textContent = 'Erro ao conectar com o servidor.';
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>

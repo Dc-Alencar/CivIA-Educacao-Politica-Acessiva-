@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/pages/modules.css">
+    <link rel="stylesheet" href="/css/components/buttons.css">
 </head>
+
 <body class="modules-body">
-    
+
     <main class="modules-container">
-        
+
         <div class="modules-header">
-            <h1 class="modules-title">Por onde começar?</h1>
-            <p class="modules-subtitle">5 módulos para entender como a política no Brasil funciona.</p>
+            <div>
+                <h1 class="modules-title">Por onde começar?</h1>
+                <p class="modules-subtitle">5 módulos para entender como a política no Brasil funciona.</p>
+            </div>
+
+
         </div>
 
         <div class="modules-list">
-            
+
             <a href="/modulos/1" class="module-card">
                 <div class="module-icon">👥</div>
                 <div class="module-info">
@@ -74,10 +83,25 @@
                     🔒
                 </div>
             </a>
-
+            <div style="display: flex; justify-content: end;">
+                <button id="btn-logout" class="btn btn-outline btn-sm" style="border-color: #ef4444; color: #ef4444;">
+                    Sair
+                </button>
+            </div>
         </div>
 
     </main>
 
+    <script>
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('civia_access_token');
+                localStorage.removeItem('civia_refresh_token');
+
+                window.location.href = '/login';
+            }
+        });
+    </script>
 </body>
+
 </html>
