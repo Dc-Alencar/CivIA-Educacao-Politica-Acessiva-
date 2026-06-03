@@ -8,12 +8,18 @@ import { router } from './routes/index.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 
-
 app.set('view engine', 'ejs');
 app.set('views', join(__dirname, 'views'));
 app.use(express.static(join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use((req, res, next) => {
+    res.locals.API_URL =
+        process.env.API_URL ||
+        "https://api-civia.onrender.com";
+    next();
+});
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'segredo-dev',
