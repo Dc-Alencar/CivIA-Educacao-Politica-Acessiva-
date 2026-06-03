@@ -55,7 +55,6 @@
 
     <script>
         const API_URL = "<%= API_URL %>";
-        console.log("API_URL:", API_URL);
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -78,7 +77,7 @@
             }
 
             try {
-                const response = await fetch(`${API_URL}/api/accounts/register/`, {
+                const response = await fetch(`${API_URL}api/accounts/register/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

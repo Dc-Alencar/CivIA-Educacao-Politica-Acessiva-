@@ -95,7 +95,6 @@
     </body>
     <script>
         const API_URL = "<%= API_URL %>";
-        console.log("API_URL:", API_URL);
         document.addEventListener('DOMContentLoaded', () => {
             const chatFab = document.getElementById('ai-chat-btn');
             const chatWindow = document.getElementById('ai-chat-window');
@@ -150,7 +149,7 @@
                     const currentModule = 1;
                     const currentTopic = 1;
 
-                    const response = await fetch(`${API_URL}/api/ai_assistant/chat/`, {
+                    const response = await fetch(`${API_URL}api/ai_assistant/chat/`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
