@@ -49,7 +49,6 @@
 
     <script>
         const API_URL = "<%= API_URL %>";
-        console.log("API_URL:", API_URL);
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             
@@ -60,7 +59,7 @@
             errorMsg.style.display = 'none'; 
 
             try {
-                const response = await fetch(`${API_URL}/api/accounts/login/`, {
+                const response = await fetch(`${API_URL}api/accounts/login/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
